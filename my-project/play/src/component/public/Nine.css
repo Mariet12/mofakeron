@@ -1,0 +1,215 @@
+/* الحاوية العامة بخلفية الصورة */
+.nine-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../../image/nine.png');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Cairo', sans-serif;
+    overflow: hidden;
+    direction: rtl;
+  }
+  
+
+ 
+  /* اللوجو العلوي */
+  .nine-top-logo {
+    position: absolute;
+    top: 25px;
+    left: 30px;
+  }
+  
+  .nine-logo-img {
+    width: 290px;
+    height: auto;
+    object-fit: contain;
+  }
+  
+/* زر الهوم المطابق تماماً لملف Six */
+.six-home-btn {
+    position: absolute;
+    top: 25px;
+    right: 30px;
+    background: #6b21a8;
+    border: 2px solid #9333ea;
+    color: #ffffff;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    transition: transform 0.2s ease;
+    z-index: 10;
+  }
+  
+  .six-home-btn:hover {
+    transform: scale(1.05);
+  }
+  
+  .nine-home-btn span {
+    font-size: 22px;
+    color: #fff;
+  }
+  
+  /* البطاقة البيضاء الرئيسية في منتصف الشاشة */
+  .nine-main-card {
+    position: relative;
+    background: #fffdf9;
+    width: 600px;
+    height: 600px;
+    padding: 55px 40px 40px 40px;
+    border-radius: 28px;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+    border: 4px solid #d4a373;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    left: 170px;
+    top: 20px;
+  }
+  
+  /* مكان الصورة البارزة في أعلى البطاقة */
+  .nine-top-image-badge {
+    position: absolute;
+    top: -90px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 155px;
+    height: 155px;
+    
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    overflow: hidden;
+  }
+  
+  .nine-badge-img-tag {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    
+  }
+  
+  /* شريط أحسنت يا بطل الأخضر */
+  .nine-congrats-banner {
+    background: #1b4332;
+    color: #fff;
+    padding: 10px 45px;
+    border-radius: 24px;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+    box-shadow: 0 4px 12px rgba(27, 67, 50, 0.3);
+  }
+  
+  .nine-success-title {
+    font-size: 22px;
+    color: #2b2b2b;
+    margin: 18px 0 25px 0;
+    font-weight: bold;
+  }
+  
+  /* الكبسولة الزرقاء */
+  .nine-score-capsule {
+    background: linear-gradient(90deg,  #0077b6 0%, #03045e 100%);
+    width: 100%;
+    max-width: 550px;
+    padding: 20px 30px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 8px 20px rgba(0, 119, 182, 0.35);
+    margin-bottom: 25px;
+  }
+  
+  /* تفاصيل المستوى والنجوم المكبرة جداً */
+  .nine-level-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: right;
+    flex-grow: 1;
+  }
+  
+  .nine-level-label {
+    font-size: 13px;
+    color: #e0fbfc;
+  }
+  
+  .nine-level-name {
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 3px;
+  }
+  
+  /* النجوم تم تكبيرها بشكل واضح جداً وجميل */
+  .nine-stars-group {
+    display: flex;
+    gap: 12px;
+    margin-top: 0px;
+  }
+  
+  .nine-star {
+    font-size: 42px; /* حجم أكبر بكثير للنجوم لتكون بارزة */
+  }
+  
+  .nine-star.active {
+    color: #ffb703;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  }
+  
+  .nine-star.inactive {
+    color: #a8dadc;
+  }
+  
+  /* صندوق ورقة الشجر */
+  .nine-leaf-side-box {
+    background: rgba(255, 255, 255, 0.25);
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    flex-shrink: 0;
+  }
+  
+  /* رسالة التشجيع */
+  .nine-footer-msg {
+    font-size: 17px;
+    color: #343a40;
+    margin-bottom: 25px;
+    font-weight: 600;
+  }
+  
+  /* زر ابدأ رحلتي الأخضر */
+  .nine-start-btn {
+    background: linear-gradient(135deg, #2d6a4f, #40916c);
+    color: #fff;
+    border: none;
+    padding: 14px 45px;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(45, 106, 79, 0.4);
+    transition: all 0.2s ease;
+  }
+  
+  .nine-start-btn:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(135deg, #40916c, #52b788);
+  }

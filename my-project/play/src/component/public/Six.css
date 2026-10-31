@@ -1,0 +1,265 @@
+/* إعدادات عامة */
+.six-container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-image: url('../../image/eight.png');
+  background-size: cover;
+  background-position: center;
+  font-family: 'Cairo', sans-serif, system-ui;
+  padding: 15px 30px;
+  box-sizing: border-box;
+}
+
+/* ديف يجمع الكارد والصورة */
+.six-content-layout {
+  display: flex;
+  flex-direction: row; 
+  align-items: center;
+  justify-content: center;
+  gap: 550px; 
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* تنسيق مكان الصورة (تم رفعها للأعلى قليلاً وإبعادها عن الجدول) */
+.six-illustration-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  position: absolute;
+  bottom: 0px; /* تم رفع الروبوت للأكثر لفوق ليبتعد عن تداخل الجدول */
+  left: -30px;   /* زيادة المسافة الأفقية لإبعاده عن الجدول */
+  z-index: 3;
+  flex-shrink: 0;
+}
+
+.six-boy-robot-img {
+  width: 580px; /* حجم الصورة */
+  height: auto;
+  animation: floatUpDown 3s ease-in-out infinite;
+}
+
+/* كود الحركة (الأنيميشن) */
+@keyframes floatUpDown {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px); 
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* للتجاوب مع الشاشات الصغيرة */
+@media (max-width: 900px) {
+  .six-content-layout {
+    flex-direction: column;
+  }
+  .six-illustration-container {
+    position: relative;
+    bottom: auto;
+    left: auto;
+  }
+}
+
+/* الهيدر والشعار */
+.six-header-image-container {
+  position: absolute;
+  top: 20px;
+  left: 30px; 
+  z-index: 10;
+}
+
+.six-header-img {
+  width: 290px; 
+  height: auto;
+  object-fit: contain;
+}
+
+/* زر الهوم المكبر */
+.six-home-btn {
+  background: #6b21a8;
+  border: 2px solid #9333ea;
+  color: #ffffff;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  transition: transform 0.2s ease;
+}
+
+.six-home-btn:hover {
+  transform: scale(1.05);
+}
+
+/* المحتوى الرئيسي: تم تحريك الجدول ناحية الهوم (اليسار) */
+.six-main-content {
+  position: relative;
+  top: 10%;
+  left: 320px; /* تم تحريك الجدول ناحية اليسار (الهوم) */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-height: 80vh;
+  z-index: 10;
+  margin-top: 110px;
+}
+
+.six-card-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 600px;
+  gap: 10px;
+  z-index: 2;
+}
+
+/* 1. ديف الترحيب العلوي */
+.six-welcome-box {
+  background: #fffdf5;
+  border-radius: 20px;
+  padding: 25px 35px;
+  width: 100%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  border: 4px solid #fef08a;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.six-title {
+  color: #1e1b4b;
+  font-size: 2.5rem;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+.six-star {
+  color: #eab308;
+  font-size: 20px;
+}
+
+.six-subtitle {
+  color: #202a47;
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+  
+}
+
+.six-note {
+  color: #4b5563;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* 2. ديف الإحصائيات */
+.six-stats-box {
+  background: #fffdf5;
+  border-radius: 20px;
+  padding: 5px 5px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border: 1px solid #fde047;
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.six-stat-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.six-stat-icon-wrapper {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.star-bg { background-color: #2563eb;}
+.question-bg { background-color: #9333ea; }
+.time-bg { background-color: #f59e0b;  }
+
+.six-stat-info {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+}
+
+.six-stat-label {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.six-stat-value {
+  font-size: 0.85rem;
+  color: #d84e4e;
+  font-weight: 800;
+}
+
+.six-divider {
+  width: 1px;
+  height: 30px;
+  background-color: #e5e7eb;
+}
+
+/* 3. ديف زر "ابدأ المحتوى" */
+.six-action-box {
+  z-index: 15;
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.six-start-btn {
+  background: #16a34a;
+  color: #ffffff;
+  border: 3px solid #bbf7d0;
+  padding: 12px 55px;
+  border-radius: 25px;
+  font-size: 1.55rem;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 6px 20px rgba(22, 163, 74, 0.4);
+  transition: all 0.2s ease-in-out;
+  width: auto;
+  flex-direction: row-reverse;
+}
+
+.six-start-btn:hover {
+  background: #15803d;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(22, 163, 74, 0.6);
+}
+
+.six-arrow {
+  font-family: monospace;
+  font-size: 1.5rem;
+  transform: scaleX(-1);
+  display: inline-block;
+  font-weight: 900;
+}

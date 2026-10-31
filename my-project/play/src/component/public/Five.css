@@ -1,0 +1,227 @@
+/* تنسيقات عامة وخلفية الصفحة */
+.verify-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Cairo', sans-serif;
+  direction: rtl;
+  box-sizing: border-box;
+  padding: 40px 15px;
+}
+
+/* خلفية الصورة */
+.verify-bg {
+  position: fixed;
+  inset: 0;
+  background-image: url('../../image/four.jpeg');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 1;
+}
+
+/* زر الرجوع العلوي */
+.back-arrow-btn {
+  position: fixed;
+  top: 30px;
+  left: 45px; 
+  background: #ffffff;
+  border: none;
+  border-radius: 50%;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+  color: #333;
+  z-index: 10;
+}
+
+.back-arrow-btn:hover {
+  transform: scale(1.08);
+}
+
+.back-icon {
+  width: 20px;
+  height: 20px;
+  color: #8b33f8;
+  transform: rotate(180deg);
+}
+
+/* نافذة النموذج البيضاء (Card) */
+.verify-card {
+  position: relative;
+  z-index: 10;
+  background: #fbfbfb;
+  padding: 50px 40px;
+  border-radius: 24px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  max-width: 480px;
+  text-align: center;
+  margin: auto;
+}
+
+/* أيقونة الرسالة */
+.icon-box {
+  margin: 0 auto 25px auto;
+  width: 65px;
+  height: 65px;
+  background-color: #f6f2ff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #a855f7;
+}
+
+.mail-icon {
+  width: 32px;
+  height: 32px;
+}
+
+/* النصوص والعناوين */
+.verify-title {
+  font-size: 26px;
+  font-weight: 900;
+  color: #1a1a1a;
+  margin-bottom: 15px;
+}
+
+.verify-desc {
+  color: #888888;
+  font-size: 14px;
+  margin-bottom: 25px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.verify-email {
+  color: #a855f7;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+/* خانات إدخال الأرقام (OTP Inputs) */
+.otp-inputs-container {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 25px;
+  direction: ltr;
+  /* لترتيب الخانات من اليسار لليمين */
+}
+
+.otp-input {
+  width: 52px;
+  height: 52px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  color: #1f2937;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.otp-input:focus {
+  border-color: #a855f7;
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.15);
+}
+
+/* إعادة الإرسال */
+.resend-container {
+  font-size: 13px;
+  margin-bottom: 30px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  color: #9ca3af;
+}
+
+.resend-btn {
+  background: none;
+  border: none;
+  color: #d2bcf3;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+}
+
+.resend-btn:hover {
+  text-decoration: underline;
+  color: #a855f7;
+}
+
+.timer-text {
+  color: #d2bcf3;
+  font-weight: 700;
+}
+
+/* زر التأكيد الرئيسي */
+.submit-btn {
+  width: 100%;
+  padding: 16px;
+  background-color: #d2bcf3;
+  color: white;
+  font-size: 18px;
+  font-weight: 800;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background-color: #a855f7;
+}
+
+.submit-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+@media (max-width: 600px) {
+  .verify-container {
+    padding: 72px 16px 20px;
+  }
+
+  .back-btn {
+    top: 14px;
+    left: 14px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .verify-card {
+    width: 100%;
+    max-width: 440px;
+    padding: 30px 20px;
+    border-radius: 20px;
+  }
+
+  .verify-title {
+    font-size: 22px;
+  }
+
+  .otp-inputs-container {
+    gap: clamp(6px, 2vw, 10px);
+  }
+
+  .otp-input {
+    width: min(13vw, 46px);
+    height: min(15vw, 46px);
+    border-radius: 8px;
+  }
+}
