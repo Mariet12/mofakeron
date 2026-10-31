@@ -1,422 +1,265 @@
-
 import React, { useState } from 'react';
 import logo from '../../image/logo.png';
-import firstqu from '../../image/firstqu.png'
+import firstqu from '../../image/firstqu.png';
+import robot from '../../image/robot.png';
 import './Tasks.css';
 
-const lessons = [
+// الموضوع الأول - Level 1 : ثلاث أسئلة تفاعلية
+const QUESTIONS = [
   {
-    title: 'What is Programming ?',
-    questions: [
-      {
-        text: 'What is Programming?',
-        options: [
-          'Playing games',
-          'Giving instructions to a computer',
-          'Buying a computer'
-        ],
-        correct: 1
-      },
-      {
-        text: 'What does a programmer do?',
-        options: [
-          'Writes computer instructions',
-          'Only plays games',
-          'Only uses the internet'
-        ],
-        correct: 0
-      },
-      {
-        text: 'Which device can run a program?',
-        options: ['A computer', 'A chair', 'A notebook'],
-        correct: 0
-      },
-      {
-        text: 'Why do we use programming?',
-        options: [
-          'To make things heavier',
-          'To solve problems using computers',
-          'To turn paper into food'
-        ],
-        correct: 1
-      }
-    ]
+    title: 'اختر الإجابة الصحيحة',
+    question: 'ما هي البرمجة ؟',
+    border: 'blue',
+    visual: 'thinking',
+    options: [
+      { letter: 'A', icon: '🎮', text: 'لعب الألعاب على الكمبيوتر' },
+      { letter: 'B', icon: '💻', text: 'إعطاء الكمبيوتر تعليمات لتنفيذ مهمة معينة' },
+      { letter: 'C', icon: '🎨', text: 'رسم الصور' },
+      { letter: 'D', icon: '▶️', text: 'مشاهدة الفيديوهات' },
+    ],
+    correct: 1,
   },
   {
-    title: 'Commands',
-    questions: [
-      {
-        text: 'What is a command?',
-        options: [
-          'An instruction given to a computer',
-          'A computer screen',
-          'A type of chair'
-        ],
-        correct: 0
-      },
-      {
-        text: 'What does the PRINT command do?',
-        options: [
-          'Turns off the computer',
-          'Displays information',
-          'Deletes every file'
-        ],
-        correct: 1
-      },
-      {
-        text: 'What is an input?',
-        options: [
-          'Information entered into a computer',
-          'A computer desk',
-          'A finished output only'
-        ],
-        correct: 0
-      },
-      {
-        text: 'What is an output?',
-        options: [
-          'A keyboard button',
-          'Information produced by a computer',
-          'A power cable'
-        ],
-        correct: 1
-      }
-    ]
+    title: 'أكمل الكود',
+    question: 'تريد أن تجعل الكمبيوتر يكتب "Hello!" على الشاشة.',
+    border: 'purple',
+    visual: 'code',
+    options: [
+      { letter: 'A', text: 'print' },
+      { letter: 'B', text: 'show' },
+      { letter: 'C', text: 'write' },
+      { letter: 'D', text: 'say' },
+    ],
+    correct: 0,
+    answerCode: 'print("Hello!")',
   },
   {
-    title: 'Sequencing',
-    questions: [
-      {
-        text: 'What is sequencing?',
-        options: [
-          'Doing things randomly',
-          'Putting instructions in order',
-          'Deleting instructions'
-        ],
-        correct: 1
-      },
-      {
-        text: 'What should come first when making a sandwich?',
-        options: [
-          'Eat the sandwich',
-          'Prepare the ingredients',
-          'Wash the dishes'
-        ],
-        correct: 1
-      },
-      {
-        text: 'Why is the order of instructions important?',
-        options: [
-          'It helps a program work correctly',
-          'It changes the computer color',
-          'It removes the program'
-        ],
-        correct: 0
-      },
-      {
-        text: 'What happens if steps are in the wrong order?',
-        options: [
-          'The result may be incorrect',
-          'The program always improves',
-          'Nothing can ever change'
-        ],
-        correct: 0
-      }
-    ]
-  }
+    title: 'اختر الإجابة الصحيحة',
+    question: 'تريد أن تجعل روبوتًا يصل إلى ⭐ . ماذا تحتاج أن تعطيه ؟',
+    border: 'orange',
+    visual: 'robot',
+    options: [
+      { letter: 'A', icon: '📋', text: 'تعليمات واضحة خطوة بخطوة' },
+      { letter: 'B', icon: '🖼️', text: 'صورة' },
+      { letter: 'C', icon: '🎵', text: 'أغنية' },
+      { letter: 'D', icon: '🎮', text: 'لعبة' },
+    ],
+    correct: 0,
+  },
 ];
 
-export default function Tasks({ onNavigate, language, setLanguage }) {
-  const [lessonIndex, setLessonIndex] = useState(0);
-  const [questionIndex, setQuestionIndex] = useState(0);
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [completedLessons, setCompletedLessons] = useState([]);
-  const [finishedAll, setFinishedAll] = useState(false);
+export default function Tasks({ onNavigate, language }) {
+  const [current, setCurrent] = useState(0);
+  const [answers, setAnswers] = useState([null, null, null]);
+  const [finished, setFinished] = useState(false);
 
-  const lesson = lessons[lessonIndex];
-  const question = lesson.questions[questionIndex];
+  const q = QUESTIONS[current];
+  const selected = answers[current];
+  const answered = selected !== null;
+  const isLast = current === QUESTIONS.length - 1;
 
-  const selectLesson = (index) => {
-    if (index > lessonIndex && !completedLessons.includes(index - 1)) {
-      return;
+  const choose = (idx) => {
+    if (answered) return;
+    setAnswers((prev) => {
+      const next = [...prev];
+      next[current] = idx;
+      return next;
+    });
+  };
+
+  const goNext = () => {
+    if (!answered) return;
+    if (isLast) setFinished(true);
+    else setCurrent((c) => c + 1);
+  };
+
+  const goPrev = () => {
+    if (current > 0) setCurrent((c) => c - 1);
+  };
+
+  const retry = () => {
+    setCurrent(0);
+    setAnswers([null, null, null]);
+    setFinished(false);
+  };
+
+  const score = answers.reduce(
+    (acc, a, i) => acc + (a === QUESTIONS[i].correct ? 1 : 0),
+    0
+  );
+
+  const correctOption = q.options[q.correct];
+
+  const renderVisual = () => {
+    if (q.visual === 'thinking') {
+      return (
+        <div className="q-visual thinking-visual">
+          <img src={firstqu} alt="طفل يفكر" />
+          <span className="thinking-mark">؟</span>
+        </div>
+      );
     }
-
-    setLessonIndex(index);
-    setQuestionIndex(0);
-    setSelectedOption(null);
-    setFinishedAll(false);
-  };
-
-  const nextQuestion = () => {
-    if (selectedOption === null) return;
-
-    setQuestionIndex((prev) => prev + 1);
-    setSelectedOption(null);
-  };
-
-  const finishLesson = () => {
-    const updatedCompleted = [...new Set([...completedLessons, lessonIndex])];
-    setCompletedLessons(updatedCompleted);
-
-    if (lessonIndex < lessons.length - 1) {
-      setLessonIndex(lessonIndex + 1);
-      setQuestionIndex(0);
-      setSelectedOption(null);
-    } else {
-      setFinishedAll(true);
+    if (q.visual === 'code') {
+      return (
+        <div className="q-visual code-visual">
+          <div className="code-term">
+            <span className="code-hint">💡</span>
+            <div className="code-line">
+              <span className="code-num">1</span>
+              <span className="code-blank">________</span>
+              <span className="code-punct">("Hello!")</span>
+            </div>
+          </div>
+          <img src={robot} alt="روبوت" className="code-robot" />
+        </div>
+      );
     }
+    // robot path to star
+    return (
+      <div className="q-visual robot-visual">
+        <img src={robot} alt="روبوت" className="robot-img" />
+        <span className="robot-path">⋯⋯⋯</span>
+        <span className="robot-star">⭐</span>
+      </div>
+    );
   };
 
-  const previousQuestion = () => {
-    if (questionIndex > 0) {
-      setQuestionIndex(questionIndex - 1);
-      setSelectedOption(null);
-    }
-  };
+  if (finished) {
+    return (
+      <div className="quiz-page">
+        <header className="quiz-header">
+          <img src={logo} alt="Logo" className="quiz-logo" />
+          <button
+            className="quiz-home-btn"
+            onClick={() => onNavigate?.('seven')}
+            aria-label="الرئيسية"
+          >
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+              <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+            </svg>
+          </button>
+        </header>
 
-  const progress = finishedAll
-    ? 100
-    : ((questionIndex + 1) / lesson.questions.length) * 100;
+        <div className="quiz-done">
+          <div className="done-emoji">🏆</div>
+          <h2>أحسنت!</h2>
+          <p>لقد أكملت الموضوع الأول في Level 1</p>
+          <p className="done-score">
+            إجابات صحيحة: {score} / {QUESTIONS.length}
+          </p>
+          <div className="done-stars">{'⭐'.repeat(score)}</div>
+          <div className="done-btns">
+            <button className="done-retry" onClick={retry}>
+              إعادة المحاولة
+            </button>
+            <button className="done-home" onClick={() => onNavigate?.('seven')}>
+              العودة للرئيسية
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="tasks-page-container">
-
-      <header className="tasks-header-bar-original">
-        <div className="tasks-top-logo">
-          <img src={logo} alt="Logo" className="nine-logo-img" />
-        </div>
-
+    <div className="quiz-page">
+      <header className="quiz-header">
+        <img src={logo} alt="Logo" className="quiz-logo" />
         <button
-          className="home-icon-btn"
+          className="quiz-home-btn"
           onClick={() => onNavigate?.('seven')}
-          aria-label="Home"
+          aria-label="الرئيسية"
         >
-          <svg viewBox="0 0 24 24" width="27" height="27" fill="currentColor">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
             <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
           </svg>
         </button>
       </header>
 
-      <main className="tasks-main-layout">
+      <div className={`quiz-card border-${q.border}`} dir="rtl">
+        <div className="quiz-card-head">
+          <span className="star-badge">{current + 1}</span>
+          <h2 className="quiz-card-title">{q.title}</h2>
+        </div>
 
-        {/* القائمة الجانبية */}
-        <aside className="tasks-sidebar">
-          <div className="sidebar-header">
-            <span className="sidebar-compass">🧭</span>
-            <div>
-              <h3>Level 1</h3>
-              <p>Coding Explorer</p>
-            </div>
-          </div>
+        <p className="quiz-question">{q.question}</p>
 
-          <div className="sidebar-menu-items">
-            {lessons.map((item, index) => {
-              const unlocked =
-                index === 0 ||
-                completedLessons.includes(index - 1);
+        <div className="quiz-body">
+          <div className="quiz-visual-wrap">{renderVisual()}</div>
 
-              const completed = completedLessons.includes(index);
-
+          <div className="q-options">
+            {q.options.map((opt, i) => {
+              const state = answered
+                ? i === q.correct
+                  ? 'correct'
+                  : i === selected
+                  ? 'wrong'
+                  : 'dim'
+                : selected === i
+                ? 'chosen'
+                : '';
               return (
                 <button
                   type="button"
-                  key={item.title}
-                  className={`menu-item ${
-                    lessonIndex === index && !finishedAll
-                      ? 'active-item'
-                      : ''
-                  } ${!unlocked ? 'locked-item' : ''}`}
-                  onClick={() => selectLesson(index)}
-                  disabled={!unlocked}
+                  key={opt.letter}
+                  className={`q-option ${state}`}
+                  onClick={() => choose(i)}
+                  disabled={answered}
                 >
-                  <span className="item-num">{index + 1}</span>
-
-                  <span className="lesson-icon">
-                    {index === 0 ? '💻' : index === 1 ? '⌨️' : '⚙️'}
+                  {opt.icon && <span className="opt-icon">{opt.icon}</span>}
+                  <span className="opt-letter">{opt.letter}</span>
+                  <span className={`opt-text ${q.visual === 'code' ? 'mono' : ''}`}>
+                    {opt.text}
                   </span>
-
-                  <span className="item-title">{item.title}</span>
-
-                  <span className="item-lock">
-                    {completed ? '✓' : !unlocked ? '🔒' : '›'}
-                  </span>
+                  {state === 'correct' && <span className="opt-check">✓</span>}
+                  {state === 'wrong' && <span className="opt-cross">✕</span>}
                 </button>
               );
             })}
           </div>
+        </div>
 
-          <div className="sidebar-progress-box">
-            <span className="progress-text-num">
-              {completedLessons.length}/3
+        {answered && (
+          <div className="quiz-footer">
+            <span className="footer-check">✓</span>
+            <span>
+              الإجابة الصحيحة: <b>{correctOption.letter}</b>
+              {q.answerCode ? (
+                <code className="footer-code">{q.answerCode}</code>
+              ) : (
+                <span className="footer-text"> — {correctOption.text}</span>
+              )}
             </span>
-
-            <div className="progress-bar-bg">
-              <div
-                className="progress-bar-fill"
-                style={{ width: `${(completedLessons.length / 3) * 100}%` }}
-              />
-            </div>
-
-            <span className="star-icon">⭐</span>
           </div>
-        </aside>
+        )}
+      </div>
 
-        {/* كارت الأسئلة */}
-        <section className="tasks-content-card">
+      <div className="quiz-nav">
+        <button
+          className="q-back"
+          onClick={goPrev}
+          disabled={current === 0}
+          aria-label="السابق"
+        >
+          ‹
+        </button>
 
-          <div className="card-top-breadcrumb">
-            <div className="breadcrumb-content">
-              <span className="breadcrumb-star">⭐</span>
-              <span>Level 1</span>
-              <span className="breadcrumb-arrow">›</span>
-              <span>
-                {finishedAll ? 'Completed!' : lesson.title}
-              </span>
-            </div>
-          </div>
+        <div className="q-dots">
+          {QUESTIONS.map((_, i) => (
+            <span
+              key={i}
+              className={`q-dot ${i === current ? 'active' : ''} ${
+                answers[i] !== null ? 'done' : ''
+              }`}
+            />
+          ))}
+        </div>
 
-          {finishedAll ? (
-            <div className="lesson-complete-screen">
-              <div className="complete-icon">🏆</div>
-              <h2>Congratulations!</h2>
-              <p>You have completed all three lessons.</p>
-              <p>Programming, Commands and Sequencing</p>
-
-              <button
-                className="next-action-btn"
-                onClick={() => onNavigate?.('seven')}
-              >
-                الرئيسية
-              </button>
-            </div>
-          ) : (
-            <>
-              <div className="question-card-inner">
-                <div className="question-header-row">
-                  <div className="q-badge-num">
-                    {questionIndex + 1}
-                  </div>
-
-                  <div className="q-laptop-icon">💻</div>
-
-                  <h2 className="q-main-title">{lesson.title}</h2>
-                </div>
-
-                <div className="question-prompt">
-                  {question.text}
-                </div>
-
-                <div className="question-body-grid">
-                  <div className="illustration-box">
-                    <img
-                      src="../../image/task-illustration.png"
-                      alt="Lesson illustration"
-                      className="task-illustration-img"
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none';
-                        e.currentTarget.nextElementSibling.style.display = 'flex';
-                      }}
-                    />
-
-                    <div className="illus-fallback">
-                     <img src={firstqu} alt="" />
-                    </div>
-                  </div>
-
-                  <div className="options-container">
-                    {question.options.map((option, index) => {
-                      const letter = String.fromCharCode(65 + index);
-
-                      return (
-                        <button
-                          type="button"
-                          key={option}
-                          className={`option-card ${
-                            selectedOption === index ? 'selected' : ''
-                          }`}
-                          onClick={() => setSelectedOption(index)}
-                        >
-                          <span className="opt-letter">{letter}</span>
-                          <span className="opt-text">{option}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-
-              <footer className="card-footer-nav">
-                <button
-                  className="nav-arrow-btn"
-                  onClick={previousQuestion}
-                  disabled={questionIndex === 0}
-                  aria-label="Previous question"
-                >
-                  ‹
-                </button>
-
-                <div className="pagination-dots">
-                  {lesson.questions.map((item, index) => (
-                    <button
-                      type="button"
-                      key={index}
-                      aria-label={`Question ${index + 1}`}
-                      className={`dot ${
-                        questionIndex === index ? 'active' : ''
-                      }`}
-                      onClick={() => {
-                        if (index <= questionIndex) {
-                          setQuestionIndex(index);
-                          setSelectedOption(null);
-                        }
-                      }}
-                    />
-                  ))}
-                </div>
-
-                {questionIndex === lesson.questions.length - 1 ? (
-                  <button
-                    className="next-action-btn"
-                    onClick={finishLesson}
-                    disabled={selectedOption === null}
-                  >
-                    Finish <span>✓</span>
-                  </button>
-                ) : (
-                  <button
-                    className="next-action-btn"
-                    onClick={nextQuestion}
-                    disabled={selectedOption === null}
-                  >
-                    التالي <span>»</span>
-                  </button>
-                )}
-              </footer>
-            </>
-          )}
-        </section>
-
-        {/* هدف الموضوع والمكافأة */}
-        <aside className="tasks-goal-sidebar">
-          <div className="goal-box">
-            <h3>هدف الموضوع</h3>
-
-            <ul>
-              <li>فهم أساسيات البرمجة.</li>
-              <li>كيفية عمل الكمبيوتر.</li>
-              <li>التعرف على الأوامر وترتيب الخطوات.</li>
-            </ul>
-
-            <div className="reward-box">
-              <h4>المكافأة</h4>
-              <hr />
-              <p>3 نجوم</p>
-              <div className="stars-row">⭐ ⭐ ⭐</div>
-            </div>
-          </div>
-        </aside>
-
-      </main>
+        <button className="q-next" onClick={goNext} disabled={!answered}>
+          {isLast ? 'إنهاء' : 'التالي'}
+          <span>›</span>
+        </button>
+      </div>
     </div>
   );
 }
