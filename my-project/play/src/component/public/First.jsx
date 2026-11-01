@@ -28,11 +28,6 @@ export default function First({ onNavigate, language: propLanguage, setLanguage 
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval);
-          if (typeof onNavigate === 'function') {
-            onNavigate('two');
-          } else {
-            console.error("error");
-          }
           return 100;
         }
         return prev + 1;
@@ -40,7 +35,13 @@ export default function First({ onNavigate, language: propLanguage, setLanguage 
     }, 40);
 
     return () => clearInterval(interval);
-  }, [onNavigate]);
+  }, []);
+
+  useEffect(() => {
+    if (progress >= 100 && typeof onNavigate === 'function') {
+      onNavigate('two');
+    }
+  }, [progress, onNavigate]);
 
   const toggleLanguage = () => {
     const newLang = language === 'ar' ? 'en' : 'ar';
