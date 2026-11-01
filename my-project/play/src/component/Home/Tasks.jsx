@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import logo from '../../image/logo.png';
 import firstqu from '../../image/firstqu.png';
 import robot from '../../image/robot.png';
+import boyImg from '../../image/boy.png';
 import topic1Video from '../../image/topic1-video.mp4';
 import './Tasks.css';
 
@@ -49,8 +50,70 @@ const QUESTIONS = [
   },
 ];
 
+/* ════════ شاشة الترحيب ════════ */
+function WelcomeScreen({ onStart, onHome }) {
+  return (
+    <div className="welcome-page" dir="rtl">
+      <header className="quiz-header">
+        <img src={logo} alt="Logo" className="quiz-logo" />
+        <button className="quiz-home-btn" onClick={onHome} aria-label="الرئيسية">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+          </svg>
+        </button>
+      </header>
+
+      <div className="welcome-layout">
+        {/* الشخصية */}
+        <div className="welcome-character">
+          <img src={boyImg} alt="بطل" />
+        </div>
+
+        {/* كارت الترحيب */}
+        <div className="welcome-card">
+          <div className="welcome-card-top">
+            <h1 className="welcome-title">مرحبًا يا بطل! <span>⭐</span></h1>
+            <p className="welcome-body">
+              خلينا نكتشف مستواك في <span className="welcome-code-badge"></span> من خلال تحدي بسيط وسريع
+            </p>
+            <p className="welcome-sub">لا تقلق .. هذا ليس امتحان مدرسي بل مغامرة جديدة في عالم البرمجة!</p>
+            <img src={robot} alt="روبوت" className="welcome-robot" />
+          </div>
+
+          <div className="welcome-stats">
+            <div className="welcome-stat">
+              <span className="stat-icon">⭐</span>
+              <span className="stat-label">عدد الأسئلة</span>
+              <span className="stat-value">{QUESTIONS.length} سؤال</span>
+            </div>
+            <div className="welcome-stat-divider" />
+            <div className="welcome-stat">
+              <span className="stat-icon">⏱️</span>
+              <span className="stat-label">الوقت المتوقع</span>
+              <span className="stat-value">~5 دقائق</span>
+            </div>
+            <div className="welcome-stat-divider" />
+            <div className="welcome-stat">
+              <span className="stat-icon">🎬</span>
+              <span className="stat-label">الشرح</span>
+              <span className="stat-value">فيديو</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button className="welcome-start-btn" onClick={onStart}>
+        ابدأ المحتوى
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12" /><polyline points="12 19 5 12 12 5" />
+        </svg>
+      </button>
+    </div>
+  );
+}
+
 /* ════════ شاشة الفيديو التوضيحي ════════ */
-function VideoIntro({ videoSrc, onStart }) {
+function VideoIntro({ videoSrc, onStart, onHome }) {
   const videoRef = useRef(null);
   const [ended, setEnded] = useState(false);
 
@@ -62,7 +125,7 @@ function VideoIntro({ videoSrc, onStart }) {
         <img src={logo} alt="Logo" className="quiz-logo" />
         <button
           className="quiz-home-btn"
-          onClick={() => window.history.back()}
+          onClick={onHome}
           aria-label="الرئيسية"
         >
           <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
@@ -103,7 +166,7 @@ function VideoIntro({ videoSrc, onStart }) {
 
 /* ════════ المكوّن الرئيسي ════════ */
 export default function Tasks({ onNavigate }) {
-  const [phase, setPhase] = useState('video'); // 'video' | 'quiz' | 'done'
+  const [phase, setPhase] = useState('welcome'); // 'welcome' | 'video' | 'quiz' | 'done'
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState(Array(QUESTIONS.length).fill(null));
 
@@ -146,9 +209,14 @@ export default function Tasks({ onNavigate }) {
   const correctOption = q.options[q.correct];
   const progress = ((current + (answered ? 1 : 0)) / QUESTIONS.length) * 100;
 
+  /* ══════ ترحيب ══════ */
+  if (phase === 'welcome') {
+    return <WelcomeScreen onStart={() => setPhase('video')} onHome={() => onNavigate?.('seven')} />;
+  }
+
   /* ══════ فيديو ══════ */
   if (phase === 'video') {
-    return <VideoIntro videoSrc={topic1Video} onStart={() => setPhase('quiz')} />;
+    return <VideoIntro videoSrc={topic1Video} onStart={() => setPhase('quiz')} onHome={() => onNavigate?.('seven')} />;
   }
 
   /* ══════ شاشة النتيجة ══════ */
